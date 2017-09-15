@@ -1,45 +1,24 @@
 Reproduction repository for https://github.com/storybooks/storybook/issues/1729
 
+This is the branch that is fixed, see comparison here: https://github.com/valscion/storybook-repro-1729/pull/1
+
 ```
 npm install
 npm run storybook
 ```
 
-...and behold, you'll get this error:
+Important tidbit is in commit 755e360c13a76cbf7a3dbe0e0f15716e385613de:
 
 ```
-npm run storybook
+commit 755e360c13a76cbf7a3dbe0e0f15716e385613de
+Author: Vesa Laakso <laakso.vesa@gmail.com>
+Date:   Fri Sep 15 11:26:10 2017 +0300
 
-> storybook-repro-1729@0.1.0 storybook /projects/storybook-repro-1729
-> start-storybook -p 9009 -s public
+    Add a binary package of @storybook/react package
 
-module.js:457
-    throw err;
-    ^
+    This tarball is the result of running `npm pack` in this commit:
+    https://github.com/valscion/storybook/commit/64e2f6b188adb7377a5d2e18e213ba44d3c4d181
 
-Error: Cannot find module 'babel-plugin-transform-regenerator'
-    at Function.Module._resolveFilename (module.js:455:15)
-    at Function.resolve (internal/module.js:27:19)
-    at Object.<anonymous> (/projects/storybook-repro-1729/node_modules/@storybook/react/dist/server/config/babel.js:12:21)
-    at Module._compile (module.js:556:32)
-    at Object.Module._extensions..js (module.js:565:10)
-    at Module.load (module.js:473:32)
-    at tryModuleLoad (module.js:432:12)
-    at Function.Module._load (module.js:424:3)
-    at Module.require (module.js:483:17)
-    at require (internal/module.js:20:19)
+    I would've gone with a git URL in package.json, if only npm would
+    support monorepos, but no.
 ```
-
-Steps taken in this repository
-
-```
-nvm use v6.4.0
-npm i -g npm@2.x
-npm i -g create-react-app
-create-react-app .
-npm i -g @storybook/cli
-getstorybook --use-npm
-# Modify package.json to pin version of @storybook/xyz packages
-```
-
-
